@@ -4,23 +4,23 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      "Experiences",
+      "Preferences",
       [
         {
-          user_id: 1,
-          company: "PT. ABC",
-          position: "Software Engineer",
-          start_date: "2020-01-01",
-          end_date: "2022-01-01",
+          userId: 1,
+          location: "Jakarta",
+          job: "Software Engineer",
+          degree: "S1",
+          skill: "JavaScript, Python, Java, C++",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          user_id: 1,
-          company: "PT. DEF",
-          position: "Software Engineer",
-          start_date: "2022-01-01",
-          end_date: "2024-01-01",
+          userId: 2,
+          location: "Bandung",
+          job: "D4",
+          degree: "Master",
+          skill: "Python, R, SQL, Machine Learning",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -30,6 +30,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Experiences", null, {});
+    await queryInterface.bulkDelete("Preferences", null, {});
   },
 };

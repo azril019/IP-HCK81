@@ -32,3 +32,57 @@ user_id INT NOT NULL,
 skill VARCHAR(255) NOT NULL,
 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+{
+"educations": [
+{"level": "S1", "institution": "ITB", "major": "IT", "gpa": 3.6, "startDate": 2016, "endDate": 2020 }
+],
+"experiences": [
+{ "company": "PT. SRI", "position": "Software Engineer", "start_date": 2021, "end_date": 2023 }
+],
+"skills": [
+{ "name": "JavaScript" }
+]
+}
+
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      user_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Users",
+          key: "id",
+          onUpdate: "CASCADE",
+          onDelete: "CASCADE",
+        },
+      },
+      level: {
+        type: Sequelize.STRING,
+      },
+      institution: {
+        type: Sequelize.STRING,
+      },
+      major: {
+        type: Sequelize.STRING,
+      },
+      gpa: {
+        type: Sequelize.FLOAT,
+      },
+      startDate: {
+        type: Sequelize.INTEGER,
+      },
+      endDate: {
+        type: Sequelize.INTEGER,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
