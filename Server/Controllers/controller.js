@@ -22,25 +22,6 @@ class Controller {
     }
   }
 
-  static async editProfile(req, res, next) {
-    try {
-      const { id } = req.user;
-
-      const user = await User.findByPk(id);
-      await user.update(req.body);
-
-      if (!user) {
-        next(res.status(404).json({ message: "User not found" }));
-        return;
-      }
-
-      res.status(200).json({ message: "Profile updated", user });
-    } catch (error) {
-      console.log("🚀 ~ Controller ~ editProfile ~ error:", error);
-      next(error);
-    }
-  }
-
   static async deleteProfile(req, res, next) {
     try {
       const { id } = req.user;
@@ -126,32 +107,6 @@ class Controller {
     }
   }
 
-  static async getDetail(req, res, next) {
-    try {
-      const { id } = req.user;
-      const user = await User.findByPk(id, {
-        attributes: { exclude: ["password"] },
-        include: [
-          {
-            model: Preference,
-            as: "Preference",
-            attributes: { exclude: ["userId"] },
-          },
-        ],
-      });
-
-      if (!user) {
-        next(res.status(404).json({ message: "User not found" }));
-        return;
-      }
-
-      res.status(200).json(user);
-    } catch (error) {
-      console.log("🚀 ~ Controller ~ getProfile ~ error", error);
-      next(error);
-    }
-  }
-
   static async getExternalData(req, res, next) {
     try {
       const { id } = req.user;
@@ -160,7 +115,7 @@ class Controller {
       const preference = await Preference.findAll({ where: { userId: id } });
       const job = preference.map((preferences) => preferences.job);
 
-      const apiUrl = `https://api.scrapingdog.com/linkedinjobs?api_key=67e15d91aa2395acfbb705b5&field=${job}&geoid=102478259&page=${page}`;
+      const apiUrl = `https://api.scrapingdog.com/linkedinjobs?api_key=67e4e54dff968bee9544b2f3&field=${job}&geoid=102478259&page=${page}`;
 
       const response = await axios.get(apiUrl);
 
@@ -194,22 +149,6 @@ class Controller {
       res.status(200).json(response.text);
     } catch (error) {
       console.log("🚀 ~ Controller ~ getExternalData ~ error:", error);
-      next(error);
-    }
-  }
-  static async choiceJob(req, res, next) {
-    try {
-      const { id } = req.user;
-      const { job } = req.body;
-
-      const preference = await Preference.create({
-        userId: id,
-        job,
-      });
-
-      res.status(201).json(preference);
-    } catch (error) {
-      console.log("🚀 ~ Controller ~ choiceJob ~ error:", error);
       next(error);
     }
   }
